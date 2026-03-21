@@ -1,137 +1,65 @@
-Device: cpu
-Run dir: /kaggle/working/glioma_paper1/run_20260321_135240
-
-============================================================
-GENERATING TRAJECTORIES
-============================================================
-Total rows: 29400
-Shared-state discrepancy: 0.023631
-
-============================================================
-SIMULATION 1: OMISSION FAILURE
-h(x;theta) cannot distinguish treatments at shared x
-============================================================
-
-Training h(x;theta)...
-  [state_only] ep=10 test_mse=0.00005288
-  [state_only] ep=20 test_mse=0.00004511
-  [state_only] ep=30 test_mse=0.00005082
-  [state_only] ep=40 test_mse=0.00004669
-
-Training h(x,u;theta)...
-  [treat_aware] ep=10 test_mse=0.00000827
-  [treat_aware] ep=20 test_mse=0.00000591
-  [treat_aware] ep=30 test_mse=0.00000650
-  [treat_aware] ep=40 test_mse=0.00001465
-
-State-only best MSE:      0.00004295
-Treatment-aware best MSE: 0.00000433
-Improvement factor:       9.9x
-
-============================================================
-SIMULATION 2: TRAJECTORY INDETERMINACY
-h(x,u;theta) sees treatment but cannot determine trajectory
-============================================================
-
--- 2A: Directionality accuracy at shared states --
-Directionality accuracy (progression): 1.0000
-Directionality accuracy (remission):   1.0000
-Directionality accuracy (all shared):  1.0000
-
--- 2B: Counterfactual coverage analysis --
-Mean coverage ratio: 0.397
-Bins with ratio < 0.3 (poor counterfactual): 9/20
-
--- 2C: Single-observation indeterminacy --
-Sign accuracy (progression query): 1.0000
-Sign accuracy (remission query):   1.0000
-Direction separation rate:         1.0000
-Mean |predicted gap|:              0.023791
-Mean |true gap|:                   0.028125
-Gap ratio (pred/true):             0.8459
-
-Trajectory Indeterminacy Measure (TIM):
-  Mean TIM in shared window: 1.5798
-  TIM = 1 means the two regimes have equal-magnitude
-  but opposite dynamics. TIM > 0 means a single
-  observation cannot determine trajectory.
-
-Saved figure 6: trajectory indeterminacy
-Saved figure 7: coverage vs accuracy
-
-============================================================
-SIMULATION 3: OBSERVATIONAL DEGENERACY
-h(x,u;theta) degrades when u is unavailable at inference
-============================================================
-
-Deployment scenario MSEs:
-  Ideal (correct u):           0.00000433
-  Scenario A (assume u=0):     0.00020353  (47.0x ideal)
-  Scenario B (assume u=mean):  0.00013470  (31.1x ideal)
-  Scenario C (random u):       0.00026570  (61.4x ideal)
-  Scenario D (swapped u):      0.00053515  (123.7x ideal)
-  State-only h(x;theta):       0.00004295  (9.9x ideal)
-
-Directionality accuracy (shared window):
-  Ideal:       1.0000
-  Assume u=0:  0.7155
-  Assume mean: 0.2471
-  Random u:    0.5162
-  Swapped u:   0.0000
-  State-only:  0.7155
-
-Remission patients in shared window:
-  Correct u -> predicts shrinkage: 1.0000
-  Assume u=0 -> predicts GROWTH:   1.0000
-  Swapped u -> predicts GROWTH:    1.0000
-  THIS IS THE CLINICAL DANGER: the AI says growth,
-  the patient has response.
-
-Saved figure 8: deployment collapse
-Saved figure 9: clinical danger
-Saved figure 10: TBR curve
-
-============================================================
-SIDE ANALYSIS 1: Prognostic ranking vs trajectory awareness
-============================================================
-Overall Spearman (raw dx):  SO=0.4580 (p=8.37e-303)  TA=0.9552
-Overall Spearman (|dx|):    SO=-0.0298  TA=0.9185
-Sign acc shared window:     SO=0.7155  TA=1.0000
-Sign acc remission:         SO=0.0000  TA=1.0000
-Remission predicted growth: SO=100.0%
-Saved figure 12: prognostic vs trajectory
-
-============================================================
-SIDE ANALYSIS 2: TBR and TIM as pre-deployment diagnostics
-============================================================
-TBR range: [0.0192, 0.0370]
-TIM range: [1.2992, 1.9917]
-TBR > 0 everywhere: True
-TIM > 1.0 everywhere: True
-TBR-error correlation: rho=-0.9624 (p=0.000000)
-TIM-error correlation: rho=0.9609 (p=0.000000)
-Saved figure 13: TBR/TIM pre-deployment
-
-============================================================
-PAPER 1 SIMULATION COMPLETE
-============================================================
-
-Move 1 (Omission failure):
-  h(x;theta) MSE:       0.00004295
-  h(x,u;theta) MSE:     0.00000433
-  Improvement:          9.9x
-
-Move 2 (Trajectory indeterminacy):
-  Sign accuracy (prog): 1.0000
-  Sign accuracy (rem):  1.0000
-  Gap ratio:            0.8459
-  Mean TIM:             1.5798
-
-Move 3 (Observational degeneracy):
-  Ideal MSE:            0.00000433
-  Assume untreated MSE: 0.00020353 (47.0x)
-  Swapped u MSE:        0.00053515 (123.7x)
-  State-only MSE:       0.00004295
-  Remission -> predicts growth when u unknown: 100.0%
-
-All outputs: /kaggle/working/glioma_paper1/run_20260321_135240
+{
+  "run_id": "20260321_135240",
+  "seed": 42,
+  "total_transitions": 29400,
+  "simulation1": {
+    "state_only_best_mse": 4.295e-05,
+    "treatment_aware_best_mse": 4.33e-06,
+    "improvement_factor": 9.9,
+    "shared_state_discrepancy": 0.023631,
+    "mean_dx_prog_shared": 0.009263,
+    "mean_dx_rem_shared": -0.014368
+  },
+  "simulation2": {
+    "sign_accuracy_progression": 1.0,
+    "sign_accuracy_remission": 1.0,
+    "sign_accuracy_all_shared": 1.0,
+    "mean_coverage_ratio": 0.397,
+    "bins_below_03": 9,
+    "mean_TIM": 1.5798,
+    "gap_ratio": 0.8459
+  },
+  "simulation3": {
+    "mse_ideal": 4.33e-06,
+    "mse_assume_untreated": 2.0353e-04,
+    "mse_assume_mean": 1.347e-04,
+    "mse_random_u": 2.657e-04,
+    "mse_swapped_u": 5.3515e-04,
+    "mse_state_only": 4.295e-05,
+    "degradation_assume_untreated": 47.0,
+    "degradation_assume_mean": 31.1,
+    "degradation_random": 61.4,
+    "degradation_swapped": 123.7,
+    "sign_acc_ideal": 1.0,
+    "sign_acc_assume_untreated": 0.7155,
+    "sign_acc_assume_mean": 0.2471,
+    "sign_acc_random": 0.5162,
+    "sign_acc_swapped": 0.0,
+    "sign_acc_state_only": 0.7155,
+    "remission_predicts_shrinkage_correct_u": 1.0,
+    "remission_predicts_growth_assume_untreated": 1.0,
+    "remission_predicts_growth_swapped": 1.0
+  },
+  "side_analysis1": {
+    "spearman_raw_so": 0.458,
+    "spearman_raw_so_p": "8.37e-303",
+    "spearman_raw_ta": 0.9552,
+    "spearman_abs_so": -0.0298,
+    "spearman_abs_ta": 0.9185,
+    "sign_acc_so_shared": 0.7155,
+    "sign_acc_so_remission": 0.0,
+    "pct_rem_growth_so": 1.0,
+    "sign_acc_ta_shared": 1.0,
+    "sign_acc_ta_remission": 1.0
+  },
+  "side_analysis2": {
+    "tbr_range": [0.0192, 0.037],
+    "tim_range": [1.2992, 1.9917],
+    "tbr_positive_all_bins": true,
+    "tim_above_1_all_bins": true,
+    "tbr_error_spearman_rho": -0.9624,
+    "tbr_error_spearman_p": 0.0,
+    "tim_error_spearman_rho": 0.9609,
+    "tim_error_spearman_p": 0.0
+  }
+}
