@@ -1,0 +1,137 @@
+Device: cpu
+Run dir: /kaggle/working/glioma_paper1/run_20260321_135240
+
+============================================================
+GENERATING TRAJECTORIES
+============================================================
+Total rows: 29400
+Shared-state discrepancy: 0.023631
+
+============================================================
+SIMULATION 1: OMISSION FAILURE
+h(x;theta) cannot distinguish treatments at shared x
+============================================================
+
+Training h(x;theta)...
+  [state_only] ep=10 test_mse=0.00005288
+  [state_only] ep=20 test_mse=0.00004511
+  [state_only] ep=30 test_mse=0.00005082
+  [state_only] ep=40 test_mse=0.00004669
+
+Training h(x,u;theta)...
+  [treat_aware] ep=10 test_mse=0.00000827
+  [treat_aware] ep=20 test_mse=0.00000591
+  [treat_aware] ep=30 test_mse=0.00000650
+  [treat_aware] ep=40 test_mse=0.00001465
+
+State-only best MSE:      0.00004295
+Treatment-aware best MSE: 0.00000433
+Improvement factor:       9.9x
+
+============================================================
+SIMULATION 2: TRAJECTORY INDETERMINACY
+h(x,u;theta) sees treatment but cannot determine trajectory
+============================================================
+
+-- 2A: Directionality accuracy at shared states --
+Directionality accuracy (progression): 1.0000
+Directionality accuracy (remission):   1.0000
+Directionality accuracy (all shared):  1.0000
+
+-- 2B: Counterfactual coverage analysis --
+Mean coverage ratio: 0.397
+Bins with ratio < 0.3 (poor counterfactual): 9/20
+
+-- 2C: Single-observation indeterminacy --
+Sign accuracy (progression query): 1.0000
+Sign accuracy (remission query):   1.0000
+Direction separation rate:         1.0000
+Mean |predicted gap|:              0.023791
+Mean |true gap|:                   0.028125
+Gap ratio (pred/true):             0.8459
+
+Trajectory Indeterminacy Measure (TIM):
+  Mean TIM in shared window: 1.5798
+  TIM = 1 means the two regimes have equal-magnitude
+  but opposite dynamics. TIM > 0 means a single
+  observation cannot determine trajectory.
+
+Saved figure 6: trajectory indeterminacy
+Saved figure 7: coverage vs accuracy
+
+============================================================
+SIMULATION 3: OBSERVATIONAL DEGENERACY
+h(x,u;theta) degrades when u is unavailable at inference
+============================================================
+
+Deployment scenario MSEs:
+  Ideal (correct u):           0.00000433
+  Scenario A (assume u=0):     0.00020353  (47.0x ideal)
+  Scenario B (assume u=mean):  0.00013470  (31.1x ideal)
+  Scenario C (random u):       0.00026570  (61.4x ideal)
+  Scenario D (swapped u):      0.00053515  (123.7x ideal)
+  State-only h(x;theta):       0.00004295  (9.9x ideal)
+
+Directionality accuracy (shared window):
+  Ideal:       1.0000
+  Assume u=0:  0.7155
+  Assume mean: 0.2471
+  Random u:    0.5162
+  Swapped u:   0.0000
+  State-only:  0.7155
+
+Remission patients in shared window:
+  Correct u -> predicts shrinkage: 1.0000
+  Assume u=0 -> predicts GROWTH:   1.0000
+  Swapped u -> predicts GROWTH:    1.0000
+  THIS IS THE CLINICAL DANGER: the AI says growth,
+  the patient has response.
+
+Saved figure 8: deployment collapse
+Saved figure 9: clinical danger
+Saved figure 10: TBR curve
+
+============================================================
+SIDE ANALYSIS 1: Prognostic ranking vs trajectory awareness
+============================================================
+Overall Spearman (raw dx):  SO=0.4580 (p=8.37e-303)  TA=0.9552
+Overall Spearman (|dx|):    SO=-0.0298  TA=0.9185
+Sign acc shared window:     SO=0.7155  TA=1.0000
+Sign acc remission:         SO=0.0000  TA=1.0000
+Remission predicted growth: SO=100.0%
+Saved figure 12: prognostic vs trajectory
+
+============================================================
+SIDE ANALYSIS 2: TBR and TIM as pre-deployment diagnostics
+============================================================
+TBR range: [0.0192, 0.0370]
+TIM range: [1.2992, 1.9917]
+TBR > 0 everywhere: True
+TIM > 1.0 everywhere: True
+TBR-error correlation: rho=-0.9624 (p=0.000000)
+TIM-error correlation: rho=0.9609 (p=0.000000)
+Saved figure 13: TBR/TIM pre-deployment
+
+============================================================
+PAPER 1 SIMULATION COMPLETE
+============================================================
+
+Move 1 (Omission failure):
+  h(x;theta) MSE:       0.00004295
+  h(x,u;theta) MSE:     0.00000433
+  Improvement:          9.9x
+
+Move 2 (Trajectory indeterminacy):
+  Sign accuracy (prog): 1.0000
+  Sign accuracy (rem):  1.0000
+  Gap ratio:            0.8459
+  Mean TIM:             1.5798
+
+Move 3 (Observational degeneracy):
+  Ideal MSE:            0.00000433
+  Assume untreated MSE: 0.00020353 (47.0x)
+  Swapped u MSE:        0.00053515 (123.7x)
+  State-only MSE:       0.00004295
+  Remission -> predicts growth when u unknown: 100.0%
+
+All outputs: /kaggle/working/glioma_paper1/run_20260321_135240
