@@ -1,12 +1,12 @@
 # BvB / Regime Collapse Kaggle Reproduction
 
-This repository contains a cleaned GitHub-ready reconstruction of the BvB regime-collapse runners from the recovered Kaggle notebook, Colab sweep notebook, and recovered CSV artifacts.
+This folder contains a cleaned GitHub-ready reconstruction of the BvB regime-collapse runners from the recovered Kaggle notebook, Colab sweep notebook, and recovered CSV artifacts.
 
 ## Files
 
 - `bvb_kaggle_runner.py` - main one-file reproduction runner for GPT-2 small and GPT-2 medium.
 - `bvb_llama2_runner.py` - separate PEFT/QLoRA runner for Llama 2 robustness sweeps on Kaggle.
-- `requirements.txt` - Python dependencies.
+- `requirements_bvb.txt` - Python dependencies.
 
 ## Expected input files
 
@@ -32,7 +32,7 @@ The main runner recreates the recovered experiment spine:
 ## Kaggle quick start
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements_bvb.txt
 python bvb_kaggle_runner.py --input-root /kaggle/working --output-dir /kaggle/working/bvb_out --mode all
 ```
 
@@ -53,15 +53,9 @@ python bvb_kaggle_runner.py --input-root /kaggle/working --output-dir /kaggle/wo
 The Llama 2 script is separate because it uses PEFT/QLoRA rather than full-weight fine-tuning.
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements_bvb.txt
 export HUGGINGFACE_HUB_TOKEN=YOUR_TOKEN
-python bvb_llama2_runner.py \
-  --input-root /kaggle/working \
-  --output-dir /kaggle/working/llama2_out \
-  --models meta-llama/Llama-2-7b-hf \
-  --lambdas 0.0 0.01 0.025 \
-  --steps 150 300 \
-  --seeds 0
+python bvb_llama2_runner.py   --input-root /kaggle/working   --output-dir /kaggle/working/llama2_out   --models meta-llama/Llama-2-7b-hf   --lambdas 0.0 0.01 0.025   --steps 150 300   --seeds 0
 ```
 
 ## Notes

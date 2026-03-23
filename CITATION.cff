@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "glioma-trajectory-blindness"
+message: "If you use this code, please cite the repository release."
+type: software
+authors:
+  - family-names: Ewing
+    given-names: Tony
+    email: ewing@tonyewing.com
+repository-code: "https://github.com/BlackCopernicus/glioma-trajectory-blindness"
+license: MIT
+version: "v1.0.0"
+date-released: 2026-03-22
+abstract: >
+  Reproduction code for the regime-collapse / trajectory-blindness experiments,
+  including language-model alignment sweeps and glioma trajectory-blindness
+  artifact support used in associated manuscripts.
+keywords:
+  - artificial intelligence
+  - medical ai
+  - glioma
+  - trajectory blindness
+  - regime collapse
+  - alignment
